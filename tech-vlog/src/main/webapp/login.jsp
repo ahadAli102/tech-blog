@@ -1,13 +1,10 @@
-<%@page import="com.ahad.util.DatabaseConnectionProvider"%>
-<%@page import="java.sql.Connection"%>
+
 <%@page import="java.util.Calendar"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page errorPage="error_page.jsp"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<%!Connection conn;%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,10 +33,6 @@
 </head>
 <body>
 
-	<%
-		String s = null;
-	s.chars();
-	%>
 	<section class="vh-100">
 		<div class="container-fluid h-custom">
 			<div
@@ -50,7 +43,7 @@
 						class="img-fluid" alt="Sample image">
 				</div>
 				<div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-					<form action="processLogin" method="get">
+					<form action="processLogin" method="post">
 
 						<!-- Email input -->
 						<div class="form-outline mb-4">
@@ -69,19 +62,33 @@
 						</div>
 
 						<div class="d-flex justify-content-between align-items-center">
-							<!-- Checkbox -->
-							<div class="form-check mb-0">
-								<input class="form-check-input me-2" type="checkbox" value=""
-									id="form2Example3" /> <label class="form-check-label"
-									for="form2Example3"> Remember me </label>
-							</div>
 							<a href="#!" class="text-body" hidden="true">Forgot password?</a>
 						</div>
 
+						<c:set var="message" value='${requestScope["status"]}' />
+						<c:if test="${not empty message}">
+							<label class="form-label">${message}</label>
+							Error has been occurred
+						</c:if>
+
+						<%
+							String errorMessage = (String) request.getAttribute("status");
+							if (errorMessage != null) {
+						%>
+							<label class="form-label"><%=errorMessage %></label>
+						<%
+							} else {
+						%>
+
+						<%
+							}
+						%>
+
+
 						<div class="text-center text-lg-start mt-4 pt-2">
 							<input type="submit" class="btn btn-primary btn-lg"
-								style="padding-left: 2.5rem; padding-right: 2.5rem;">Login
-							</button>
+								style="padding-left: 2.5rem; padding-right: 2.5rem;"
+								value="Login"> </input>
 							<p class="small fw-bold mt-2 pt-1 mb-0">
 								Don't have an account? <a href="signup.jsp" class="link-danger">Register</a>
 							</p>

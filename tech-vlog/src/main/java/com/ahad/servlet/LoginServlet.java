@@ -13,39 +13,37 @@ import com.ahad.entity.User;
 import com.ahad.service.UserService;
 import com.ahad.util.ServiceProvider;
 
-@WebServlet("/processSignup")
-public class RegistrationServlet extends HttpServlet {
+@WebServlet("/processLogin")
+public class LoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String name = request.getParameter("name").trim();
 		String email = request.getParameter("email").trim();
 		String password = request.getParameter("password").trim();
-		String rePassword = request.getParameter("rePassword").trim();
-		String condition = request.getParameter("condition");
-		User user = new User(name, email, password, rePassword, condition);
-		System.out.println(user);
+
+		System.out.println(email + "    " + password);
 		try {
 			UserService userService = ServiceProvider.getUserService();
-			int databaseResponse = userService.addUser(user);
-			if (databaseResponse != -1) {
-				request.setAttribute("status", "Your account has been registered");
-				System.out.println("Your account has been registered");
+			User user = userService.getUser(email, password);
+			System.out.println("login serv "+user);
+			if (user != null) {
+				RequestDispatcher dispatcher = request.getRequestDispatcher("home_feed.jsp");
+				request.getSession().setAttribute("user", user);
+				dispatcher.forward(request, response);
 			} else {
-				request.setAttribute("status", "Internal servier error occured");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+				request.setAttribute("status", "User not found for the email and password");
 				System.out.println("Internal servier error occured");
+				dispatcher.forward(request, response);
 			}
-		} catch (RuntimeException e) {
-			request.setAttribute("status", e.getMessage());
-			System.out.println(e.getMessage());
 		} catch (Exception e) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
 			request.setAttribute("status", e.getMessage());
 			System.out.println(e.getMessage());
+			dispatcher.forward(request, response);
 		}
-		RequestDispatcher dispatcher = request.getRequestDispatcher("signup.jsp");
-		dispatcher.include(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -53,4 +51,5 @@ public class RegistrationServlet extends HttpServlet {
 
 		doGet(request, response);
 	}
+
 }

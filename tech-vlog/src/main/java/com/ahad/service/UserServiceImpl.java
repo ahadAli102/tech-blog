@@ -13,12 +13,12 @@ public class UserServiceImpl implements UserService {
 			userDao = ServiceProvider.getUserDao();
 
 		if (user.getCondition() != null && user.getCondition().equals("accepted")) {
-			if (user.getName() != null && !user.getName().isEmpty() 
-					&& user.getPassword() != null && !user.getPassword().isEmpty() 
-					&& user.getRePassword() != null && !user.getRePassword().isEmpty()) {
-				if(user.getPassword().equals(user.getRePassword())) {
+			if (user.getName() != null && !user.getName().isEmpty() && user.getPassword() != null
+					&& !user.getPassword().isEmpty() && user.getRePassword() != null
+					&& !user.getRePassword().isEmpty()) {
+				if (user.getPassword().equals(user.getRePassword())) {
 					return userDao.addUser(user);
-				}else {
+				} else {
 					throw new RuntimeException("Passwords didn't matched");
 				}
 			} else {
@@ -26,6 +26,23 @@ public class UserServiceImpl implements UserService {
 			}
 		} else {
 			throw new RuntimeException("Sorry you don't have checked condition");
+		}
+
+	}
+
+	@Override
+	public User getUser(String email, String password) {
+		if (userDao == null)
+			userDao = ServiceProvider.getUserDao();
+		if (email != null && !email.isBlank() && !email.isEmpty()) {
+			if (password != null && !password.isBlank() && !password.isEmpty()) {
+				System.out.println("service get user porsess");
+				return userDao.getUser(email, password);
+			} else {
+				throw new RuntimeException("service get user password is empty");
+			}
+		} else {
+			throw new RuntimeException("service get user email is empty");
 		}
 
 	}
