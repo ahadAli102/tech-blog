@@ -3,6 +3,7 @@
 <%@page import="java.util.Calendar"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ page errorPage="error_page.jsp"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
@@ -34,6 +35,11 @@
 </style>
 </head>
 <body>
+
+	<%
+		String s = null;
+	s.chars();
+	%>
 	<section class="vh-100">
 		<div class="container-fluid h-custom">
 			<div
@@ -74,7 +80,8 @@
 
 						<div class="text-center text-lg-start mt-4 pt-2">
 							<input type="submit" class="btn btn-primary btn-lg"
-								style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
+								style="padding-left: 2.5rem; padding-right: 2.5rem;">Login
+							</button>
 							<p class="small fw-bold mt-2 pt-1 mb-0">
 								Don't have an account? <a href="signup.jsp" class="link-danger">Register</a>
 							</p>
