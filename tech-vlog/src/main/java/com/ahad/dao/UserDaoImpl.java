@@ -1,5 +1,7 @@
 package com.ahad.dao;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +13,7 @@ import com.ahad.util.DatabaseConnectionProvider;
 public class UserDaoImpl implements UserDao {
 	private static final String INSERT_SQL = "INSERT INTO `user_table` (`name`, `email`, `password`, `condition`) VALUES (?, ?, ?, ?)";
 	private static final String GET_USER = "SELECT * FROM user_table WHERE email=? AND password=? ";
+	private static final String INSERT_IMAGE = "INSERT INTO `profile_image` (`id`, `name`, `type`, `image`,  `email`) VALUES (NULL, ?, ?, ?, ?)";
 
 	@Override
 	public int addUser(User user) {
@@ -95,6 +98,52 @@ public class UserDaoImpl implements UserDao {
 		}
 
 		return user;
+	}
+
+	@Override
+	public int insertProfileImage(byte[] image, String fileName, String type, String email) {
+		int response = -1;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		try {
+			conn = DatabaseConnectionProvider.getConnection();
+			stmt = conn.prepareStatement(INSERT_IMAGE);
+			stmt.setString(1, fileName);
+			stmt.setString(2, type);
+			int length1 = image.length;
+			InputStream is = new ByteArrayInputStream(image);
+			stmt.setBinaryStream(3, is, length1);
+			stmt.setString(4, email);
+			System.out.println(stmt);
+			response = stmt.executeUpdate();
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("user dao getUser classnotfound");
+			e.printStackTrace();
+		} catch (SQLException e) {
+			System.out.println("user dao getUser sql");
+			e.printStackTrace();
+		} catch (Exception e) {
+		} finally {
+			try {
+				if (stmt != null) {
+					stmt.close();
+				}
+			} catch (Exception e) {
+				System.out.println("user dao getUser stmt close");
+				e.printStackTrace();
+			}
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				System.out.println("user dao getUser conn close");
+				e.printStackTrace();
+			}
+		}
+
+		return response;
 	}
 
 }

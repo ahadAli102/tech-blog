@@ -4,6 +4,11 @@ import com.ahad.dao.UserDao;
 import com.ahad.entity.User;
 import com.ahad.util.ServiceProvider;
 
+import java.io.InputStream;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.Part;
+
 public class UserServiceImpl implements UserService {
 	private UserDao userDao;
 
@@ -45,6 +50,28 @@ public class UserServiceImpl implements UserService {
 			throw new RuntimeException("service get user email is empty");
 		}
 
+	}
+
+	@Override
+	public int insertProfileImage(Part part, String email) {
+		if (userDao == null)
+			userDao = ServiceProvider.getUserDao();
+
+		try {
+			String fileName = part.getSubmittedFileName();
+			String type = part.getContentType();
+			if (part != null && !fileName.isEmpty()) {
+				InputStream is = part.getInputStream();
+				byte[] image = is.readAllBytes();
+				System.out.println("Name is :" + fileName + " size is : " + image.length);
+				return userDao.insertProfileImage(image, fileName, type, email);
+
+			} else {
+				throw new RuntimeException("Please select a file");
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
 	}
 
 }
