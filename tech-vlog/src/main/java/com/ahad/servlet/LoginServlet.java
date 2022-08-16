@@ -27,11 +27,10 @@ public class LoginServlet extends HttpServlet {
 		try {
 			UserService userService = ServiceProvider.getUserService();
 			User user = userService.getUser(email, password);
-			System.out.println("login serv "+user);
+			System.out.println("login serv " + user);
 			if (user != null) {
-				RequestDispatcher dispatcher = request.getRequestDispatcher("home_feed.jsp");
 				request.getSession().setAttribute("user", user);
-				dispatcher.forward(request, response);
+				response.sendRedirect("home_feed.jsp");
 			} else {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
 				request.setAttribute("status", "User not found for the email and password");
