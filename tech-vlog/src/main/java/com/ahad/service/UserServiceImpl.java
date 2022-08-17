@@ -1,13 +1,14 @@
 package com.ahad.service;
 
+import java.io.InputStream;
+import java.util.Base64;
+
+import javax.servlet.http.Part;
+
 import com.ahad.dao.UserDao;
+import com.ahad.entity.Image;
 import com.ahad.entity.User;
 import com.ahad.util.ServiceProvider;
-
-import java.io.InputStream;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.http.Part;
 
 public class UserServiceImpl implements UserService {
 	private UserDao userDao;
@@ -71,6 +72,24 @@ public class UserServiceImpl implements UserService {
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
+		}
+	}
+
+	@Override
+	public Image getProfileImage(String email) {
+		if (userDao == null)
+			userDao = ServiceProvider.getUserDao();
+		if(email!=null) {
+			 Image image = userDao.getImage(email);
+			 if(image!=null) {
+			 String textImage = Base64.getEncoder().encodeToString(image.getByteImage());
+				image.setTextImage(textImage);
+				return image;
+			}else {
+				throw new RuntimeException("Image not fownd for the user "+email);
+			}
+		}else {
+			throw new RuntimeException("User email is empty");
 		}
 	}
 

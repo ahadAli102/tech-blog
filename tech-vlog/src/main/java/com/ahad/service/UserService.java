@@ -1,5 +1,6 @@
 package com.ahad.service;
 
+import com.ahad.entity.Image;
 import com.ahad.entity.User;
 import javax.servlet.http.Part;
 
@@ -9,4 +10,6 @@ public interface UserService {
 	User getUser(String email, String password);
 
 	int insertProfileImage(Part part,String email);
+	
+	Image getProfileImage(String email);
 }

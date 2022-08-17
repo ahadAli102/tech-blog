@@ -7,12 +7,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.ahad.entity.Image;
 import com.ahad.entity.User;
 import com.ahad.util.DatabaseConnectionProvider;
 
 public class UserDaoImpl implements UserDao {
 	private static final String INSERT_SQL = "INSERT INTO `user_table` (`name`, `email`, `password`, `condition`) VALUES (?, ?, ?, ?)";
 	private static final String GET_USER = "SELECT * FROM user_table WHERE email=? AND password=? ";
+	private static final String GET_USER_IMAGE = "SELECT * FROM profile_image WHERE profile_image.email=? ORDER BY profile_image.id DESC";
 	private static final String INSERT_IMAGE = "INSERT INTO `profile_image` (`id`, `name`, `type`, `image`,  `email`) VALUES (NULL, ?, ?, ?, ?)";
 
 	@Override
@@ -144,6 +146,50 @@ public class UserDaoImpl implements UserDao {
 		}
 
 		return response;
+	}
+
+	@Override
+	public Image getImage(String email) {
+		System.out.println("Get image");
+		Image image = null;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		try {
+			conn = DatabaseConnectionProvider.getConnection();
+			stmt = conn.prepareStatement(GET_USER_IMAGE);
+			stmt.setString(1, email);
+			System.out.println(stmt);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				image = new Image(rs.getInt("id"),rs.getString("name"),rs.getString("type"));
+				image.setByteImage(rs.getBytes("image"));
+			}
+		} catch (ClassNotFoundException e) {
+			System.out.println("user dao getImage classnotfound");
+			e.printStackTrace();
+		} catch (SQLException e) {
+			System.out.println("user dao getImage sql");
+			e.printStackTrace();
+		} catch (Exception e) {
+		} finally {
+			try {
+				if (stmt != null) {
+					stmt.close();
+				}
+			} catch (Exception e) {
+				System.out.println("user dao getImage stmt close");
+				e.printStackTrace();
+			}
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				System.out.println("user dao getImage conn close");
+				e.printStackTrace();
+			}
+		}
+		return image;
 	}
 
 }

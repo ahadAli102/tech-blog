@@ -1,3 +1,5 @@
+<%@page import="com.ahad.util.ServiceProvider"%>
+<%@page import="com.ahad.entity.Image"%>
 <%@page import="java.util.Base64"%>
 <%@ page import="java.sql.*"%>
 <%@page import="com.ahad.entity.User"%>
@@ -15,7 +17,25 @@
 <link rel="stylesheet" href="css/myStyle.css">
 </head>
 <body>
-
+	<%
+		User user = null;
+		String myImage = "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp";
+		try {
+			user = (User) session.getAttribute("user");
+			log("home nav user is : " + user);
+			if (user == null) {
+				response.sendRedirect("login.jsp");
+			}
+			Image image = ServiceProvider.getUserService().getProfileImage(user.getEmail());
+			myImage = "data:"+image.getType()+";base64,"+image.getTextImage();
+	
+		} catch (Exception e) {
+			response.sendRedirect("login.jsp");
+		}
+	
+		
+		
+	%>
 	<div class="container mt-1">
 		<div class="row">
 			<div class="col">
@@ -25,7 +45,7 @@
 						<div class="d-flex text-black">
 							<div class="flex-shrink-0">
 								<img
-									src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+									src=<%=myImage %>
 									alt="Generic placeholder image" class="img-fluid"
 									style="width: 180px; border-radius: 10px;">
 							</div>
