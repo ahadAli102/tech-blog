@@ -19,35 +19,32 @@
 <body>
 	<%
 		User user = null;
-		String myImage = "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp";
-		try {
-			user = (User) session.getAttribute("user");
-			log("home nav user is : " + user);
-			if (user == null) {
-				response.sendRedirect("login.jsp");
-			}
-			Image image = ServiceProvider.getUserService().getProfileImage(user.getEmail());
-			myImage = "data:"+image.getType()+";base64,"+image.getTextImage();
-	
-		} catch (Exception e) {
+	String myImage = "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp";
+	try {
+		user = (User) session.getAttribute("user");
+		log("home nav user is : " + user);
+		if (user == null) {
 			response.sendRedirect("login.jsp");
 		}
-	
-		
-		
+		Image image = ServiceProvider.getUserService().getProfileImage(user.getEmail());
+		myImage = "data:" + image.getType() + ";base64," + image.getTextImage();
+
+	} catch (Exception e) {
+		response.sendRedirect("login.jsp");
+	}
 	%>
 	<div class="container mt-1">
 		<div class="row">
+			<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">User
+				profile</p>
 			<div class="col">
 				<!-- user profile -->
 				<div class="card" style="border-radius: 15px;">
-					<div class="card-body p-4">
+					<div class="card-body p-md-5">
 						<div class="d-flex text-black">
 							<div class="flex-shrink-0">
-								<img
-									src=<%=myImage %>
-									alt="Generic placeholder image" class="img-fluid"
-									style="width: 180px; border-radius: 10px;">
+								<img src=<%=myImage%> alt="Generic placeholder image"
+									class="img-fluid" style="width: 180px; border-radius: 10px;">
 							</div>
 							<div class="flex-grow-1 ms-3">
 								<h5 class="mb-1">Danny McLoan</h5>
@@ -78,23 +75,20 @@
 					</div>
 				</div>
 			</div>
-			<div class="col">
+			<div class="col mt-4">
 				<form class="row g-3 p-3" action="uploadImage" method="POST"
 					action="uploadImage" enctype="multipart/form-data">
-					<label class="form-label" for="customFile">Default file
-						input example</label> <input type="file" accept="image/*"
+					<label class="form-label" for="customFile">Select image to
+						change profile</label> <input type="file" accept="image/*"
 						class="form-control" id="customFile" name="file" /> <br> <input
 						type="hidden"
 						value="<%="image" + ((User) session.getAttribute("user")).getName()%>"
 						name="userName" />
-
-
-
 					<%
-						String errorMessage = (String) request.getAttribute("status");
-					if (errorMessage != null) {
+						String imageMessage = (String) request.getAttribute("status");
+					if (imageMessage != null) {
 					%>
-					<label class="form-label"><%=errorMessage%></label>
+					<label class="form-label"><%=imageMessage%></label>
 					<%
 						request.removeAttribute("status");
 					}
@@ -129,10 +123,54 @@
 			</div>
 		</div>
 		<div class="row">
+			<div class="col">
+				<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Add
+					Vlog</p>
+				<form action="addVlog" method="post" class="mx-1 mx-md-4">
+					<div class="d-flex flex-row align-items-center mb-4">
+						<i class="fas fa-user fa-lg me-3 fa-fw"></i>
+						<div class="form-outline flex-fill mb-0">
+							<input type="text" name="title" id="form3Example1c"
+								class="form-control" /> <label class="form-label"
+								for="form3Example1c">Title</label>
+						</div>
+					</div>
+
+					<div class="d-flex flex-row align-items-center mb-4">
+						<i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+						<div class="form-outline flex-fill mb-0 rows=3">
+							<textarea class="form-control" id="form3Example3c" rows="5"
+								name="description"></textarea>
+							<label class="form-label" for="form3Example3c">Description</label>
+						</div>
+					</div>
+
+					<%
+						String vlogMessage = (String) request.getAttribute("vlog_status");
+					if (vlogMessage != null) {
+					%>
+					<label class="form-label"><%=vlogMessage%></label>
+					<%
+						request.removeAttribute("vlog_status");
+					}
+					%>
+
+					<div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+						<input type="submit" value="ADD"
+							class="btn btn-primary btn-lg ms-2 me-2" /> <input type="reset"
+							value="RESET" class="btn btn-primary btn-lg" />
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<!-- 
+		<div class="row">
 			<div class="col">1 of 3</div>
 			<div class="col">2 of 3</div>
 			<div class="col">3 of 3</div>
 		</div>
+		 -->
 	</div>
 
 	<script src="js/jquery.js"></script>
