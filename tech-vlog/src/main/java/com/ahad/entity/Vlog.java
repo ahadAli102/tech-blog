@@ -5,6 +5,7 @@ public class Vlog {
 	private String title;
 	private String description;
 	private String email;
+	private String lastUpdate;
 
 	public Vlog(int id, String title, String description, String email) {
 		super();
@@ -58,9 +59,18 @@ public class Vlog {
 		this.email = email;
 	}
 
+	public String getLastUpdate() {
+		return lastUpdate;
+	}
+
+	public void setLastUpdate(String lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+
 	@Override
 	public String toString() {
-		return "Vlog [id=" + id + ", name=" + title + ", description=" + description + ", email=" + email + "]";
+		return "Vlog [id=" + id + ", title=" + title + ", description=" + description + ", email=" + email
+				+ ", lastUpdate=" + lastUpdate + "]";
 	}
 
 }

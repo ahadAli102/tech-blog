@@ -33,50 +33,48 @@
 		response.sendRedirect("login.jsp");
 	}
 	%>
-	<div class="container mt-1">
-		<div class="row">
-			<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">User
-				profile</p>
-			<div class="col">
-				<!-- user profile -->
-				<div class="card" style="border-radius: 15px;">
-					<div class="card-body p-md-5">
-						<div class="d-flex text-black">
-							<div class="flex-shrink-0">
-								<img src=<%=myImage%> alt="Generic placeholder image"
-									class="img-fluid" style="width: 180px; border-radius: 10px;">
+	<div class="container pt-1 pb-3">
+		<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">User
+			profile</p>
+		<div class="row row-cols-1 row-cols-md-2 g-4">
+			<!-- user profile -->
+			<div class="col mt-1" style="border-radius: 15px;">
+				<div class="card p-4">
+					<div class="d-flex text-black">
+						<div class="flex-shrink-0">
+							<img src=<%=myImage%> alt="Generic placeholder image"
+								class="img-fluid" style="width: 180px; border-radius: 10px;">
+						</div>
+						<div class="flex-grow-1 ms-3">
+							<h5 class="mb-1">Danny McLoan</h5>
+							<p class="mb-2 pb-1" style="color: #2b2a2a;">Senior
+								Journalist</p>
+							<div class="d-flex justify-content-start rounded-3 p-2 mb-2"
+								style="background-color: #efefef;">
+								<div>
+									<p class="small text-muted mb-1">Articles</p>
+									<p class="mb-0">41</p>
+								</div>
+								<div class="px-3">
+									<p class="small text-muted mb-1">Followers</p>
+									<p class="mb-0">976</p>
+								</div>
+								<div>
+									<p class="small text-muted mb-1">Rating</p>
+									<p class="mb-0">8.5</p>
+								</div>
 							</div>
-							<div class="flex-grow-1 ms-3">
-								<h5 class="mb-1">Danny McLoan</h5>
-								<p class="mb-2 pb-1" style="color: #2b2a2a;">Senior
-									Journalist</p>
-								<div class="d-flex justify-content-start rounded-3 p-2 mb-2"
-									style="background-color: #efefef;">
-									<div>
-										<p class="small text-muted mb-1">Articles</p>
-										<p class="mb-0">41</p>
-									</div>
-									<div class="px-3">
-										<p class="small text-muted mb-1">Followers</p>
-										<p class="mb-0">976</p>
-									</div>
-									<div>
-										<p class="small text-muted mb-1">Rating</p>
-										<p class="mb-0">8.5</p>
-									</div>
-								</div>
-								<div class="d-flex pt-1">
-									<button type="button"
-										class="btn btn-outline-primary me-1 flex-grow-1">Chat</button>
-									<button type="button" class="btn btn-primary flex-grow-1">Follow</button>
-								</div>
+							<div class="d-flex pt-1">
+								<button type="button"
+									class="btn btn-outline-primary me-1 flex-grow-1">Chat</button>
+								<button type="button" class="btn btn-primary flex-grow-1">Follow</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col mt-4">
-				<form class="row g-3 p-3" action="uploadImage" method="POST"
+			<div class="col mt-1" style="border-radius: 15px;">
+				<form class="card p-5" action="uploadImage" method="POST"
 					action="uploadImage" enctype="multipart/form-data">
 					<label class="form-label" for="customFile">Select image to
 						change profile</label> <input type="file" accept="image/*"
@@ -119,7 +117,6 @@
 						</div>
 					</div>
 				</form>
-
 			</div>
 		</div>
 		<div class="row">
@@ -162,6 +159,43 @@
 					</div>
 				</form>
 			</div>
+		</div>
+		<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Articles</p>
+		<div class="row row-cols-1 row-cols-md-3 g-4">
+			<div class="col">
+				<div class="card h-100">
+					<div class="card-body">
+						<h5 class="card-title">Card title</h5>
+						<p class="card-text">This is a longer card with supporting
+							text below as a natural lead-in to additional content. This
+							content is a little bit longer.</p>
+						<p class="card-text">
+							<small class="text-muted">Last updated 3 mins ago</small>
+						</p>
+						<div class="card-text text-muted d-flex">
+							<form id="showvlog" action="showvlog">
+								<input type="hidden" name="vlogId" value="0" /> 
+								<a href="javascript:$('showvlog').submit();" class="link-primary">
+					              show
+					            </a>
+							</form>
+							<form id="editvlog" class="ms-2 me-2" action="editvlog">
+								<input type="hidden" name="vlogId" value="0" /> 
+								<a href="javascript:$('editvlog').submit();" class="link-secondary">
+					              edit
+					            </a>
+							</form>
+							<form id="deletevlog" action="deletevlog" method="post">
+								<input type="hidden" name="vlogId" value="0" /> 
+								<a href="javascript:$('deletevlog').submit();" class="link-danger">
+					              delete
+					            </a>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
 		</div>
 
 		<!-- 
