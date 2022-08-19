@@ -72,7 +72,11 @@ public class VlogDaoImpl implements VlogDao {
 					vlogs = new ArrayList<Vlog>();
 					System.out.println("vlog dao init vlogs");
 				}
-				Vlog vlog = new Vlog(rs.getInt("id"), rs.getString("title"), rs.getString("description"), rs.getString("email"));
+				String description = rs.getString("description");
+				if(description.length() > 130) {
+					description = description.substring(0, 115).concat("   read more...");
+				}
+				Vlog vlog = new Vlog(rs.getInt("id"), rs.getString("title"), description, rs.getString("email"));
 				
 				long time = rs.getLong("time");
 				SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy 'at' hh:mm aaa");    
