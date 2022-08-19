@@ -1,3 +1,5 @@
+<%@page import="com.ahad.entity.Vlog"%>
+<%@page import="java.util.List"%>
 <%@page import="com.ahad.util.ServiceProvider"%>
 <%@page import="com.ahad.entity.Image"%>
 <%@page import="java.util.Base64"%>
@@ -32,6 +34,9 @@
 	} catch (Exception e) {
 		response.sendRedirect("login.jsp");
 	}
+	%>
+	<%
+	List<Vlog> vlogs = ServiceProvider.getVlogService().getVlogs(user.getEmail());
 	%>
 	<div class="container pt-1 pb-3">
 		<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">User

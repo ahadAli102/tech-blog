@@ -1,5 +1,7 @@
 package com.ahad.service;
 
+import java.util.List;
+
 import com.ahad.dao.VlogDao;
 import com.ahad.entity.Vlog;
 import com.ahad.util.ServiceProvider;
@@ -18,6 +20,17 @@ public class VlogServiceImpl implements VlogService {
 		} else {
 			throw new RuntimeException("Please fill all place");
 		}
+	}
+
+	@Override
+	public List<Vlog> getVlogs(String email) {
+		if(vlogDao == null)
+			vlogDao = ServiceProvider.getVlogDao();
+		List<Vlog> vlogs = vlogDao.getVlogs(email);
+		
+		
+		System.out.println(vlogs);
+		return vlogs;
 	}
 
 }
