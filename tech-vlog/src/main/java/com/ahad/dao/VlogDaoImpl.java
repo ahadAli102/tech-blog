@@ -67,21 +67,24 @@ public class VlogDaoImpl implements VlogDao {
 			stmt.setString(1, email);
 			System.out.println(stmt);
 			ResultSet rs = stmt.executeQuery();
-			while(rs.next()) {
-				if(vlogs == null) {
+			while (rs.next()) {
+				if (vlogs == null) {
 					vlogs = new ArrayList<Vlog>();
 					System.out.println("vlog dao init vlogs");
 				}
 				String description = rs.getString("description");
-				if(description.length() > 130) {
+				boolean big = false;
+				if (description.length() > 130) {
 					description = description.substring(0, 115).concat("   read more...");
+					big = true;
 				}
 				Vlog vlog = new Vlog(rs.getInt("id"), rs.getString("title"), description, rs.getString("email"));
-				
+
 				long time = rs.getLong("time");
-				SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy 'at' hh:mm aaa");    
+				SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy 'at' hh:mm aaa");
 				Date resultdate = new Date(time);
 				vlog.setLastUpdate(sdf.format(resultdate));
+				vlog.setBig(big);
 				vlogs.add(vlog);
 			}
 		} catch (ClassNotFoundException e) {

@@ -8,11 +8,12 @@
 <%@ page import="java.io.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@include file="home_profile_nav.jsp"%>
 <!DOCTYPE html>
 
 <html>
 <head>
-<title>File Upload</title>
+<title>Profile</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -36,7 +37,7 @@
 	}
 	%>
 	<%
-	List<Vlog> vlogs = ServiceProvider.getVlogService().getVlogs(user.getEmail());
+		List<Vlog> vlogs = ServiceProvider.getVlogService().getVlogs(user.getEmail());
 	%>
 	<div class="container pt-1 pb-3">
 		<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">User
@@ -166,40 +167,39 @@
 			</div>
 		</div>
 		<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Articles</p>
+
 		<div class="row row-cols-1 row-cols-md-3 g-4">
+			<%for (Vlog vlog : vlogs) {%>
 			<div class="col">
 				<div class="card h-100">
 					<div class="card-body">
-						<h5 class="card-title">Card title</h5>
-						<p class="card-text">This is a longer card with supporting
-							text below as a natural lead-in to additional content. This
-							content is a little bit longer.</p>
+						<h5 class="card-title"><%=vlog.getTitle()%></h5>
+						<p class="card-text"><%=vlog.getDescription()%></p>
 						<p class="card-text">
-							<small class="text-muted">Last updated 3 mins ago</small>
+							<small class="text-muted"><%=vlog.getLastUpdate()%></small>
 						</p>
 						<div class="card-text text-muted d-flex">
-							<form id="showvlog" action="showvlog">
-								<input type="hidden" name="vlogId" value="0" /> 
-								<a href="javascript:$('showvlog').submit();" class="link-primary">
-					              show
-					            </a>
+							<%if (vlog.isBig()) {%>
+							<form id="showvlogId" action="showvlog">
+								<input type="hidden" name="vlogId" value="<%=vlog.getId() %>" />
+								<a href="#" class="link-primary" onclick="document.getElementById('showvlogId').submit();">SHOW</a>
 							</form>
-							<form id="editvlog" class="ms-2 me-2" action="editvlog">
-								<input type="hidden" name="vlogId" value="0" /> 
-								<a href="javascript:$('editvlog').submit();" class="link-secondary">
-					              edit
-					            </a>
+							<%}%>
+							<form id="editvlogId" class="ms-2 me-2" action="editvlog" method="get">
+								<input type="hidden" name="vlogId" value="<%=vlog.getId() %>" />
+								<a href="#" class="link-secondary" onclick="document.getElementById('editvlogId').submit();">EDIT</a>
 							</form>
-							<form id="deletevlog" action="deletevlog" method="post">
-								<input type="hidden" name="vlogId" value="0" /> 
-								<a href="javascript:$('deletevlog').submit();" class="link-danger">
-					              delete
-					            </a>
+							<form id="deletevlogId" action="deletevlog" method="post">
+								<input type="hidden" name="vlogId" value="<%=vlog.getId() %>" />
+								<a href="#" class="link-danger" onclick="document.getElementById('deletevlogId').submit();">DELETE</a>
 							</form>
+							
 						</div>
 					</div>
 				</div>
 			</div>
+			<%}%>
+
 
 		</div>
 

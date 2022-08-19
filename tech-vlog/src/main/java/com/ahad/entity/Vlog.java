@@ -6,6 +6,7 @@ public class Vlog {
 	private String description;
 	private String email;
 	private String lastUpdate;
+	private boolean big;
 
 	public Vlog(int id, String title, String description, String email) {
 		super();
@@ -67,10 +68,18 @@ public class Vlog {
 		this.lastUpdate = lastUpdate;
 	}
 
+	public boolean isBig() {
+		return big;
+	}
+
+	public void setBig(boolean big) {
+		this.big = big;
+	}
+
 	@Override
 	public String toString() {
 		return "Vlog [id=" + id + ", title=" + title + ", description=" + description + ", email=" + email
-				+ ", lastUpdate=" + lastUpdate + "]";
+				+ ", lastUpdate=" + lastUpdate + ", big=" + big + "]";
 	}
 
 }
