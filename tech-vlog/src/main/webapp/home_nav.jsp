@@ -17,12 +17,15 @@
 		User user = (User) session.getAttribute("user");
 		log("home nav user is : " + user);
 		if (user == null) {
+			System.out.println("home nav user is null");
 			response.sendRedirect("login.jsp");
+			return;
 		}
+		System.out.println("home nav "+user);
 
 	} catch (Exception e) {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
-		dispatcher.include(request, response);
+		System.out.println("home nav "+e.getMessage());
+		response.sendRedirect("login.jsp");
 	}
 	%>
 	<nav

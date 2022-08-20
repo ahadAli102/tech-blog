@@ -33,4 +33,11 @@ public class VlogServiceImpl implements VlogService {
 		return vlogs;
 	}
 
+	@Override
+	public Vlog getVlog(int id) {
+		if(vlogDao == null)
+			vlogDao = ServiceProvider.getVlogDao();
+		return vlogDao.getVlog(id);
+	}
+
 }

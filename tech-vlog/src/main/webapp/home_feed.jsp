@@ -9,5 +9,22 @@
 </head>
 <body>
 Feed
+<%
+		try {
+		User user = (User) session.getAttribute("user");
+		if (user == null) {
+			System.out.println("home feed user is null");
+			/* RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+			dispatcher.forward(request, response); */
+			response.sendRedirect("login.jsp");
+		}
+
+	} catch (Exception e) {
+		System.out.println("home feed "+e.getMessage());
+		/* RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+		dispatcher.forward(request, response); */
+		response.sendRedirect("login.jsp");
+	}
+	%>
 </body>
 </html>

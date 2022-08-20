@@ -20,24 +20,28 @@
 <link rel="stylesheet" href="css/myStyle.css">
 </head>
 <body>
-	<%
+
+	<%!
 		User user = null;
-	String myImage = "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp";
+		List<Vlog> vlogs = null;%>
+	<%
+		String myImage = "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp";
 	try {
 		user = (User) session.getAttribute("user");
 		log("home nav user is : " + user);
 		if (user == null) {
 			response.sendRedirect("login.jsp");
+			return;
+		} else {
+			Image image = ServiceProvider.getUserService().getProfileImage(user.getEmail());
+			myImage = "data:" + image.getType() + ";base64," + image.getTextImage();
+			vlogs = ServiceProvider.getVlogService().getVlogs(user.getEmail());
 		}
-		Image image = ServiceProvider.getUserService().getProfileImage(user.getEmail());
-		myImage = "data:" + image.getType() + ";base64," + image.getTextImage();
 
 	} catch (Exception e) {
 		response.sendRedirect("login.jsp");
+		return;
 	}
-	%>
-	<%
-		List<Vlog> vlogs = ServiceProvider.getVlogService().getVlogs(user.getEmail());
 	%>
 	<div class="container pt-1 pb-3">
 		<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">User
@@ -169,7 +173,9 @@
 		<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Articles</p>
 
 		<div class="row row-cols-1 row-cols-md-3 g-4">
-			<%for (Vlog vlog : vlogs) {%>
+			<%
+				for (Vlog vlog : vlogs) {
+			%>
 			<div class="col">
 				<div class="card h-100">
 					<div class="card-body">
@@ -179,26 +185,36 @@
 							<small class="text-muted"><%=vlog.getLastUpdate()%></small>
 						</p>
 						<div class="card-text text-muted d-flex">
-							<%if (vlog.isBig()) {%>
+							<%
+								if (vlog.isBig()) {
+							%>
 							<form id="showvlogId" action="showvlog">
-								<input type="hidden" name="vlogId" value="<%=vlog.getId() %>" />
-								<a href="#" class="link-primary" onclick="document.getElementById('showvlogId').submit();">SHOW</a>
+								<input type="hidden" name="vlogId" value="<%=vlog.getId()%>" />
+								<a href="#" class="link-primary"
+									onclick="document.getElementById('showvlogId').submit();">SHOW</a>
 							</form>
-							<%}%>
-							<form id="editvlogId" class="ms-2 me-2" action="editvlog" method="get">
-								<input type="hidden" name="vlogId" value="<%=vlog.getId() %>" />
-								<a href="#" class="link-secondary" onclick="document.getElementById('editvlogId').submit();">EDIT</a>
+							<%
+								}
+							%>
+							<form id="editvlogId" class="ms-2 me-2" action="editvlog"
+								method="get">
+								<input type="hidden" name="vlogId" value="<%=vlog.getId()%>" />
+								<a href="#" class="link-secondary"
+									onclick="document.getElementById('editvlogId').submit();">EDIT</a>
 							</form>
 							<form id="deletevlogId" action="deletevlog" method="post">
-								<input type="hidden" name="vlogId" value="<%=vlog.getId() %>" />
-								<a href="#" class="link-danger" onclick="document.getElementById('deletevlogId').submit();">DELETE</a>
+								<input type="hidden" name="vlogId" value="<%=vlog.getId()%>" />
+								<a href="#" class="link-danger"
+									onclick="document.getElementById('deletevlogId').submit();">DELETE</a>
 							</form>
-							
+
 						</div>
 					</div>
 				</div>
 			</div>
-			<%}%>
+			<%
+				}
+			%>
 
 
 		</div>

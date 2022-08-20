@@ -15,6 +15,7 @@ import com.ahad.util.DatabaseConnectionProvider;
 public class VlogDaoImpl implements VlogDao {
 	private String INSERT_SQL = "INSERT INTO `vlog_table` (`title`, `description`, `time`, `email`) VALUES (?, ?, ?, ?);";
 	private String GET_VLOG = "SELECT * from `vlog_table` WHERE vlog_table.email = ? ORDER BY vlog_table.id DESC";
+	private String GET_VLOG_BY_ID = "SELECT * from `vlog_table` WHERE vlog_table.id = ?";
 
 	@Override
 	public int addVlog(Vlog vlog) {
@@ -115,6 +116,55 @@ public class VlogDaoImpl implements VlogDao {
 			}
 		}
 		return vlogs;
+	}
+
+	@Override
+	public Vlog getVlog(int id) {
+		Vlog vlog = null;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		try {
+			conn = DatabaseConnectionProvider.getConnection();
+			stmt = conn.prepareStatement(GET_VLOG_BY_ID);
+			stmt.setInt(1, id);
+			System.out.println(stmt);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				String description = rs.getString("description");
+				vlog = new Vlog(rs.getInt("id"), rs.getString("title"), description, rs.getString("email"));
+				long time = rs.getLong("time");
+				SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy 'at' hh:mm aaa");
+				Date resultdate = new Date(time);
+				vlog.setLastUpdate(sdf.format(resultdate));
+			}
+		} catch (ClassNotFoundException e) {
+			System.out.println("user dao getUser classnotfound");
+			e.printStackTrace();
+		} catch (SQLException e) {
+			System.out.println("user dao getUser sql");
+			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("user dao getUser exception");
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null) {
+					stmt.close();
+				}
+			} catch (Exception e) {
+				System.out.println("user dao getUser stmt close");
+				e.printStackTrace();
+			}
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				System.out.println("user dao getUser conn close");
+				e.printStackTrace();
+			}
+		}
+		return vlog;
 	}
 
 }
