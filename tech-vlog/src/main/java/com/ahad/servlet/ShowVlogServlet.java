@@ -26,7 +26,7 @@ public class ShowVlogServlet extends HttpServlet {
 			System.out.println(vlog);
 			if(vlog!=null) {
 				System.out.println("show vlog "+vlog);
-				request.setAttribute("show_vlog", vlog);
+				request.getSession().setAttribute("show_vlog", vlog);
 				RequestDispatcher dispatcher = request.getRequestDispatcher("show_vlog.jsp");
 				dispatcher.forward(request, response);
 			}else {

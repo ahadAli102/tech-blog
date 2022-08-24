@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ahad.dao.VlogDao;
 import com.ahad.entity.Vlog;
+import com.ahad.entity.VlogRating;
 import com.ahad.util.ServiceProvider;
 
 public class VlogServiceImpl implements VlogService {
@@ -38,6 +39,24 @@ public class VlogServiceImpl implements VlogService {
 		if(vlogDao == null)
 			vlogDao = ServiceProvider.getVlogDao();
 		return vlogDao.getVlog(id);
+	}
+
+	@Override
+	public void rateVlog(int vlogId, String raterEmail, int vlogRating) {
+		if(vlogDao == null)
+			vlogDao = ServiceProvider.getVlogDao();
+		try {
+			VlogRating vr = new VlogRating(vlogId,raterEmail,vlogRating);
+			if(!vlogDao.isRatingExist(vr)) {
+				vlogDao.rateVlog(vr);
+			}else {
+				throw new RuntimeException("You have already rated this vlog");
+			}
+		}
+		catch(Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
+		
 	}
 
 }

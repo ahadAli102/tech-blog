@@ -16,7 +16,7 @@
 <body>
 <body>
 	<%
-		Vlog vlog = (Vlog) request.getAttribute("show_vlog");
+		Vlog vlog = (Vlog) request.getSession().getAttribute("show_vlog");
 	/* Vlog vlog = new Vlog("Core Java",
 			"The word Core describes the basic concept of something, and here, the phrase 'Core Java' defines the basic Java that covers the basic concept of Java programming language.",
 			"a@gmail.com"); */
@@ -40,6 +40,15 @@
 						<label for="customRange2" class="form-label">Rate the
 							article (OUT OF 10)</label> <input type="range" class="form-range"
 							min="0" max="10" id="customRange2" name="rate">
+						<input type="hidden" name="vlogId" value="<%=vlog.getId()%>" />
+						<%
+							String status = (String) request.getAttribute("rate_vlog_status");
+							if (status != null) {
+						%>
+							<label class="form-label"><%=status %></label>
+						<%
+							}
+						%>
 						<div class="text-center">
 							<button class="btn btn-outline-success" type="submit">
 								POST</button>
