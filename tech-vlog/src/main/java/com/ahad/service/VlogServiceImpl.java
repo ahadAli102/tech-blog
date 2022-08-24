@@ -1,8 +1,10 @@
 package com.ahad.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ahad.dao.VlogDao;
+import com.ahad.entity.User;
 import com.ahad.entity.Vlog;
 import com.ahad.entity.VlogRating;
 import com.ahad.util.ServiceProvider;
@@ -12,7 +14,7 @@ public class VlogServiceImpl implements VlogService {
 
 	@Override
 	public int addVlog(String title, String description, String email) {
-		if(vlogDao == null)
+		if (vlogDao == null)
 			vlogDao = ServiceProvider.getVlogDao();
 		if (title != null && !title.isEmpty() && description != null && !description.isEmpty()) {
 			Vlog vlog = new Vlog(title, description, email);
@@ -25,38 +27,54 @@ public class VlogServiceImpl implements VlogService {
 
 	@Override
 	public List<Vlog> getVlogs(String email) {
-		if(vlogDao == null)
+		if (vlogDao == null)
 			vlogDao = ServiceProvider.getVlogDao();
 		List<Vlog> vlogs = vlogDao.getVlogs(email);
-		
-		
+
 		System.out.println(vlogs);
 		return vlogs;
 	}
 
 	@Override
 	public Vlog getVlog(int id) {
-		if(vlogDao == null)
+		if (vlogDao == null)
 			vlogDao = ServiceProvider.getVlogDao();
 		return vlogDao.getVlog(id);
 	}
 
 	@Override
 	public void rateVlog(int vlogId, String raterEmail, int vlogRating) {
-		if(vlogDao == null)
+		if (vlogDao == null)
 			vlogDao = ServiceProvider.getVlogDao();
 		try {
-			VlogRating vr = new VlogRating(vlogId,raterEmail,vlogRating);
-			if(!vlogDao.isRatingExist(vr)) {
+			VlogRating vr = new VlogRating(vlogId, raterEmail, vlogRating);
+			if (!vlogDao.isRatingExist(vr)) {
 				vlogDao.rateVlog(vr);
-			}else {
+			} else {
 				throw new RuntimeException("You have already rated this vlog");
 			}
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
 		}
-		
+
+	}
+
+	@Override
+	public Map<String, Object> getVlogRating(int id) {
+		if (vlogDao == null)
+			vlogDao = ServiceProvider.getVlogDao();
+		Map<String,Object> rating = vlogDao.getVlogRating(id);
+		if(rating.get("avg_rating") == null) {
+			rating.put("avg_rating", "Not rated");
+		}
+		return rating;
+	}
+
+	@Override
+	public User getVlogAuthor(String email) {
+		if (vlogDao == null)
+			vlogDao = ServiceProvider.getVlogDao();
+		return vlogDao.getVlogAuthor(email);
 	}
 
 }

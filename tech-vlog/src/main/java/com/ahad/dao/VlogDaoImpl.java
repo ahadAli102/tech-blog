@@ -7,8 +7,11 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.ahad.entity.User;
 import com.ahad.entity.Vlog;
 import com.ahad.entity.VlogRating;
 import com.ahad.util.DatabaseConnectionProvider;
@@ -19,6 +22,8 @@ public class VlogDaoImpl implements VlogDao {
 	private String GET_VLOG_BY_ID = "SELECT * from `vlog_table` WHERE vlog_table.id = ?";
 	private String GET_USER_VLOG_RATING = "SELECT COUNT(vlog_rating_table.vlog_id) as user_vote from vlog_rating_table WHERE vlog_rating_table.vlog_id = ? AND vlog_rating_table.email = ?;";
 	private String RATE_VLOG = "INSERT INTO `vlog_rating_table`(`vlog_id`, `email`, `rating`) VALUES (?, ?, ?)";
+	private String RATING_OF_VLOG = "SELECT AVG(vlog_rating_table.rating) AS avg_rating, COUNT(vlog_rating_table.vlog_id) AS total_votes FROM vlog_rating_table WHERE vlog_rating_table.vlog_id = ?;";
+	private String VLOG_AUTHOR = "SELECT * FROM user_table WHERE email=?";
 
 	@Override
 	public int addVlog(Vlog vlog) {
@@ -248,6 +253,98 @@ public class VlogDaoImpl implements VlogDao {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public Map<String, Object> getVlogRating(int id) {
+		Map<String, Object> rating = new HashMap<String, Object>();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		try {
+			conn = DatabaseConnectionProvider.getConnection();
+			stmt = conn.prepareStatement(RATING_OF_VLOG);
+			stmt.setInt(1, id);
+			System.out.println(stmt);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				rating.put("avg_rating", rs.getObject("avg_rating"));
+				rating.put("total_votes", rs.getInt("total_votes"));
+			}
+		} catch (ClassNotFoundException e) {
+			System.out.println("vlog dao getVlogRating classnotfound");
+			e.printStackTrace();
+		} catch (SQLException e) {
+			System.out.println("vlog dao getVlogRating sql");
+			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("vlog dao getVlogRating exception");
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null) {
+					stmt.close();
+				}
+			} catch (Exception e) {
+				System.out.println("vlog dao getVlogRating stmt close");
+				e.printStackTrace();
+			}
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				System.out.println("user dao getVlogRating conn close");
+				e.printStackTrace();
+			}
+		}
+		return rating;
+	}
+
+	@Override
+	public User getVlogAuthor(String email) {
+		User vlogAuthor = null;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		try {
+			conn = DatabaseConnectionProvider.getConnection();
+			stmt = conn.prepareStatement(VLOG_AUTHOR);
+			stmt.setString(1, email);
+			System.out.println(stmt);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				vlogAuthor = new User();
+				vlogAuthor.setName(rs.getString("name"));
+				vlogAuthor.setEmail(rs.getString("email"));
+				System.out.println(rs.getString("name")+"    "+rs.getString("email"));
+			}
+		} catch (ClassNotFoundException e) {
+			System.out.println("vlog dao get vlogs classnotfound");
+			e.printStackTrace();
+		} catch (SQLException e) {
+			System.out.println("vlog dao get vlogs sql");
+			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("vlog dao get vlogs exception");
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null) {
+					stmt.close();
+				}
+			} catch (Exception e) {
+				System.out.println("vlog dao get vlogs stmt close");
+				e.printStackTrace();
+			}
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				System.out.println("vlog dao get vlogs conn close");
+				e.printStackTrace();
+			}
+		}
+		return vlogAuthor;
 	}
 
 }

@@ -22,10 +22,11 @@ public class ShowVlogServlet extends HttpServlet {
 		
 		try {
 			int id = Integer.parseInt(request.getParameter("vlogId"));
+			System.out.println("vlog id "+id);
 			Vlog vlog =  ServiceProvider.getVlogService().getVlog(id);
-			System.out.println(vlog);
 			if(vlog!=null) {
-				System.out.println("show vlog "+vlog);
+				System.out.println(vlog.getId()+" "+vlog.getTitle());
+				request.getSession().removeAttribute("show_vlog");
 				request.getSession().setAttribute("show_vlog", vlog);
 				RequestDispatcher dispatcher = request.getRequestDispatcher("show_vlog.jsp");
 				dispatcher.forward(request, response);
