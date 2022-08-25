@@ -77,4 +77,15 @@ public class VlogServiceImpl implements VlogService {
 		return vlogDao.getVlogAuthor(email);
 	}
 
+	@Override
+	public void deleteVlog(int vlogId) {
+		if (vlogDao == null)
+			vlogDao = ServiceProvider.getVlogDao();
+		if (vlogDao.deleteVlog(vlogId) != -1) {
+			
+		} else {
+			throw new RuntimeException("Vlog is not deleted");
+		}
+	}
+
 }

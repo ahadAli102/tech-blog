@@ -22,66 +22,82 @@
 		Vlog vlog = (Vlog) request.getSession().getAttribute("show_vlog");
 		Map<String, Object> vlogRating = ServiceProvider.getVlogService().getVlogRating(vlog.getId());
 		User vlogAuthor = ServiceProvider.getVlogService().getVlogAuthor(vlog.getEmail());
-		
+	
 		Map<String, Object> authorRating = ServiceProvider.getUserService().getAuthorRating(vlogAuthor.getEmail());
 		System.out.println(authorRating);
-
+		User user = ((User) session.getAttribute("user"));
+		System.out.println(vlog.getEmail()+" "+vlogAuthor.getEmail());
 	%>
 
 	<div class="container">
 		<div class="row pt-2 pb-2">
 			<div class="col">
-				<p class="fs-3"><%=vlog.getTitle()%></p>
+				<div class="row">
+					<div class="col">
+						<p class="fs-3"><%=vlog.getTitle()%></p>
+					</div>
+					<%if (vlog.getEmail().equals(user.getEmail())) {%>
+					
+						<form id="form1" class="col mt-2" method="get" action="deletevlog">
+							<input class="form-control me-2" type="hidden" name="vlogId"
+								value="<%=vlog.getId()%>">
+							<a href="#" class="ms-2 me-2 link-danger" onclick="document.getElementById('form1').submit();">DELETE!</a>
+						</form>
+						
+					<%}%>
+				</div>
 				<p class="fs-5"><%=vlog.getDescription()%></p>
 			</div>
 			<div class="col ps-3">
-				<div class="row">
-					<div class="card pb-2 mb-2">
-						<div class="row pt-2 pb-1">
-							<div class="col">
-								<p class="fs-3">
-									Author
-									<%=vlogAuthor.getName()%></p>
+				<%if (!vlog.getEmail().equals(user.getEmail())) {%>
+					<div class="row">
+						<div class="card pb-2 mb-2">
+							<div class="row pt-2 pb-1">
+								<div class="col">
+									<p class="fs-3">
+										Author
+										<%=vlogAuthor.getName()%></p>
+									<p class="fs-5">
+										Email
+										<%=vlogAuthor.getEmail()%></p>
+								</div>
+							</div>
+	
+							<div class="row">
 								<p class="fs-5">
-									Email
-									<%=vlogAuthor.getEmail()%></p>
+									Author Average Rating :
+									<%=authorRating.get("avg_rating")%></p>
+							</div>
+							<div class="row">
+								<p class="fs-5">
+									Total votes:
+									<%=authorRating.get("total_votes")%></p>
+							</div>
+							<div class="row">
+								<form action="rateauthor" method="POST">
+									<label for="customRange2" class="form-label">Rate the
+										author (OUT OF 10)</label> <input type="range" class="form-range"
+										min="0" max="10" id="customRange2" name="rate"> <input
+										type="hidden" name="authorEmail"
+										value="<%=vlogAuthor.getEmail()%>" />
+									<%
+										String authorStatus = (String) session.getAttribute("rate_author_status");
+									if (authorStatus != null) {
+									%>
+									<label class="form-label"><%=authorStatus%></label>
+									<%
+										session.removeAttribute("rate_author_status");
+									}
+									%>
+									<div class="text-center">
+										<button class="btn btn-outline-success" type="submit">
+											POST</button>
+									</div>
+								</form>
 							</div>
 						</div>
-
-						<div class="row">
-							<p class="fs-5">
-								Author Average Rating :
-								<%=authorRating.get("avg_rating")%></p>
-						</div>
-						<div class="row">
-							<p class="fs-5">
-								Total votes:
-								<%=authorRating.get("total_votes")%></p>
-						</div>
-						<div class="row">
-							<form action="rateauthor" method="GET">
-								<label for="customRange2" class="form-label">Rate the
-									author (OUT OF 10)</label> <input type="range" class="form-range"
-									min="0" max="10" id="customRange2" name="rate"> <input
-									type="hidden" name="authorEmail" value="<%=vlogAuthor.getEmail()%>" />
-								<%
-									String authorStatus = (String) session.getAttribute("rate_author_status");
-								if (authorStatus != null) {
-								%>
-								<label class="form-label"><%=authorStatus%></label>
-								<%
-								session.removeAttribute("rate_author_status");
-								}
-								%>
-								<div class="text-center">
-									<button class="btn btn-outline-success" type="submit">
-										POST</button>
-								</div>
-							</form>
-						</div>
 					</div>
-				</div>
-
+				<%}%>
 				<div class="row">
 					<div class="col card pb-2 mb-2">
 						<div class="row">
@@ -100,15 +116,13 @@
 									article (OUT OF 10)</label> <input type="range" class="form-range"
 									min="0" max="10" id="customRange2" name="rate"> <input
 									type="hidden" name="vlogId" value="<%=vlog.getId()%>" />
-								<%
-									String status = (String) session.getAttribute("rate_vlog_status");
-								if (status != null) {
-								%>
-								<label class="form-label"><%=status%></label>
-								<%
-								session.removeAttribute("rate_vlog_status");
-								}
-								%>
+								
+								<%String status = (String) session.getAttribute("rate_vlog_status");
+								if (status != null) {%>
+									<label class="form-label"><%=status%></label>
+									
+									<%session.removeAttribute("rate_vlog_status");
+								}%>
 								<div class="text-center">
 									<button class="btn btn-outline-success" type="submit">
 										POST</button>

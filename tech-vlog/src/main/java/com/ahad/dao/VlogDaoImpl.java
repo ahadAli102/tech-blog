@@ -24,6 +24,7 @@ public class VlogDaoImpl implements VlogDao {
 	private String RATE_VLOG = "INSERT INTO `vlog_rating_table`(`vlog_id`, `email`, `rating`) VALUES (?, ?, ?)";
 	private String RATING_OF_VLOG = "SELECT AVG(vlog_rating_table.rating) AS avg_rating, COUNT(vlog_rating_table.vlog_id) AS total_votes FROM vlog_rating_table WHERE vlog_rating_table.vlog_id = ?;";
 	private String VLOG_AUTHOR = "SELECT * FROM user_table WHERE email=?";
+	private static final String DELETE_VLOG= "DELETE FROM vlog_table WHERE vlog_table.id = ?";
 
 	@Override
 	public int addVlog(Vlog vlog) {
@@ -345,6 +346,42 @@ public class VlogDaoImpl implements VlogDao {
 			}
 		}
 		return vlogAuthor;
+	}
+
+	@Override
+	public int deleteVlog(int vlogId) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		int response = -1;
+		try {
+			conn = DatabaseConnectionProvider.getConnection();
+			stmt = conn.prepareStatement(DELETE_VLOG);
+			stmt.setInt(1, vlogId);
+			System.out.println(stmt);
+			response = stmt.executeUpdate();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			return -1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+		} finally {
+			try {
+				if (stmt != null) {
+					stmt.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return response;
 	}
 
 }
