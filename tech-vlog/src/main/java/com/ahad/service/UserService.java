@@ -12,4 +12,6 @@ public interface UserService {
 	int insertProfileImage(Part part,String email);
 	
 	Image getProfileImage(String email);
+
+	void rateAuthor(String authorEmail, String raterEmail, int rating);
 }

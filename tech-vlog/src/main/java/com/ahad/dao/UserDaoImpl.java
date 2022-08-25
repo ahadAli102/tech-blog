@@ -16,6 +16,9 @@ public class UserDaoImpl implements UserDao {
 	private static final String GET_USER = "SELECT * FROM user_table WHERE email=? AND password=? ";
 	private static final String GET_USER_IMAGE = "SELECT * FROM profile_image WHERE profile_image.email=? ORDER BY profile_image.id DESC";
 	private static final String INSERT_IMAGE = "INSERT INTO `profile_image` (`id`, `name`, `type`, `image`,  `email`) VALUES (NULL, ?, ?, ?, ?)";
+	private static final String RATE_AUTHOR = "INSERT INTO `author_rating_table` (`author_email`, `rater_email`, `rating`) VALUES (?, ?, ?)";
+			
+			
 
 	@Override
 	public int addUser(User user) {
@@ -190,6 +193,46 @@ public class UserDaoImpl implements UserDao {
 			}
 		}
 		return image;
+	}
+
+	@Override
+	public int rateAuthor(String authorEmail, String raterEmail, int rating) {
+		System.out.println("User dao : "+authorEmail+" "+raterEmail+" "+rating);
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		int response = -1;
+		try {
+			conn = DatabaseConnectionProvider.getConnection();
+			stmt = conn.prepareStatement(RATE_AUTHOR);
+			stmt.setString(1, authorEmail);
+			stmt.setString(2, raterEmail);
+			stmt.setInt(3, rating);
+			System.out.println(stmt);
+			response = stmt.executeUpdate();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			return -1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+		} finally {
+			try {
+				if (stmt != null) {
+					stmt.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return response;
+		
 	}
 
 }

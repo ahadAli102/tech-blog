@@ -79,18 +79,27 @@ public class UserServiceImpl implements UserService {
 	public Image getProfileImage(String email) {
 		if (userDao == null)
 			userDao = ServiceProvider.getUserDao();
-		if(email!=null) {
-			 Image image = userDao.getImage(email);
-			 if(image!=null) {
-			 String textImage = Base64.getEncoder().encodeToString(image.getByteImage());
+		if (email != null) {
+			Image image = userDao.getImage(email);
+			if (image != null) {
+				String textImage = Base64.getEncoder().encodeToString(image.getByteImage());
 				image.setTextImage(textImage);
 				return image;
-			}else {
-				throw new RuntimeException("Image not fownd for the user "+email);
+			} else {
+				throw new RuntimeException("Image not fownd for the user " + email);
 			}
-		}else {
+		} else {
 			throw new RuntimeException("User email is empty");
 		}
+	}
+
+	@Override
+	public void rateAuthor(String authorEmail, String raterEmail, int rating) {
+		if (userDao == null)
+			userDao = ServiceProvider.getUserDao();
+		System.out.println("User service : "+authorEmail+" "+raterEmail+" "+rating);
+		if(userDao.rateAuthor(authorEmail, raterEmail, rating) == -1)
+			throw new RuntimeException("You have already ratted this author");
 	}
 
 }
