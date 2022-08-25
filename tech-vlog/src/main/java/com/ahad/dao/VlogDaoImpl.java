@@ -25,6 +25,7 @@ public class VlogDaoImpl implements VlogDao {
 	private String RATING_OF_VLOG = "SELECT AVG(vlog_rating_table.rating) AS avg_rating, COUNT(vlog_rating_table.vlog_id) AS total_votes FROM vlog_rating_table WHERE vlog_rating_table.vlog_id = ?;";
 	private String VLOG_AUTHOR = "SELECT * FROM user_table WHERE email=?";
 	private static final String DELETE_VLOG= "DELETE FROM vlog_table WHERE vlog_table.id = ?";
+	private static final String EDIT_VLOG = "UPDATE `vlog_table` SET `title`= ?,`description`= ?,`time`= ? WHERE vlog_table.id = ?";
 
 	@Override
 	public int addVlog(Vlog vlog) {
@@ -362,6 +363,44 @@ public class VlogDaoImpl implements VlogDao {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			return -1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+		} finally {
+			try {
+				if (stmt != null) {
+					stmt.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return response;
+	}
+
+	@Override
+	public int editvlog(int vlogId, String title, String description) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		int response = -1;
+		try {
+			conn = DatabaseConnectionProvider.getConnection();
+			stmt = conn.prepareStatement(EDIT_VLOG);
+			stmt.setString(1, title);
+			stmt.setString(2, description);
+			stmt.setLong(3, System.currentTimeMillis());
+			stmt.setInt(4, vlogId);
+			System.out.println(stmt);
+			response = stmt.executeUpdate();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

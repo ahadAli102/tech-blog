@@ -14,4 +14,5 @@ public interface VlogService {
 	Map<String,Object> getVlogRating(int id);
 	User getVlogAuthor(String email);
 	void deleteVlog(int vlogId);
+	void editvlog(int vlogId, String title, String description);
 }

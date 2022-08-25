@@ -88,4 +88,13 @@ public class VlogServiceImpl implements VlogService {
 		}
 	}
 
+	@Override
+	public void editvlog(int vlogId, String title, String description) {
+		if (vlogDao == null)
+			vlogDao = ServiceProvider.getVlogDao();
+		if(vlogDao.editvlog(vlogId,title,description) ==-1) {
+			throw new RuntimeException("Failed to update vlog");
+		}
+	}
+
 }

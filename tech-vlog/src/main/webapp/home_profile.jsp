@@ -168,7 +168,18 @@
 		</div>
 		<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Articles</p>
 
+		<%
+			String vlogEditMessage = (String) session.getAttribute("edit_vlog_status");
+		if (vlogMessage != null) {
+		%>
+		<label class="form-label"><%=vlogEditMessage%></label>
+		<%
+			session.removeAttribute("edit_vlog_status");
+		}
+		%>
+
 		<div class="row row-cols-1 row-cols-md-3 g-4">
+
 			<%
 				for (int i = 0; i < vlogs.size(); i++) {
 			%>
@@ -183,10 +194,9 @@
 						<div class="card-text text-muted d-flex">
 							<a
 								href="http://localhost:8080/tech-vlog/showvlog?vlogId=<%=vlogs.get(i).getId()%>"
-								class="ms-2 me-2 link-primary"> SHOW </a> 
-							<a
-								href="http://localhost:8080/tech-vlog/editvlog?vlogId=<%=vlogs.get(i).getId()%>"
-								class="ms-2 me-2 link-secondary" > EDIT </a>
+								class="ms-2 me-2 link-primary"> SHOW </a> <a
+								href="http://localhost:8080/tech-vlog/edit_vlog.jsp?vlogId=<%=vlogs.get(i).getId()%>"
+								class="ms-2 me-2 link-secondary"> EDIT </a>
 						</div>
 					</div>
 				</div>

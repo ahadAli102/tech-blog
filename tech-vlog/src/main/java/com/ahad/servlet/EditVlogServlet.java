@@ -2,18 +2,16 @@ package com.ahad.servlet;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ahad.entity.User;
 import com.ahad.util.ServiceProvider;
 
-@WebServlet("/deletevlog")
-public class DeleteVlogServlet extends HttpServlet {
+@WebServlet("/editvlog")
+public class EditVlogServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -21,11 +19,13 @@ public class DeleteVlogServlet extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			int vlogId = Integer.parseInt(request.getParameter("vlogId"));
-			ServiceProvider.getVlogService().deleteVlog(vlogId);
-			request.getSession().setAttribute("delete_vlog_status", "Vlog is deleted sucessfully");
+			String title = request.getParameter("title");
+			String description = request.getParameter("description");
+			ServiceProvider.getVlogService().editvlog(vlogId, title, description);
+			request.getSession().setAttribute("edit_vlog_status", "Vlog is edited sucessfully");
 			System.out.println("add vlog insert succesfully");
 		} catch (Exception e) {
-			request.getSession().setAttribute("delete_vlog_status", e.getMessage());
+			request.getSession().setAttribute("edit_vlog_status", e.getMessage());
 			System.out.println("Error occured: " + e.getMessage());
 		}finally {
 			response.sendRedirect("home_profile.jsp");

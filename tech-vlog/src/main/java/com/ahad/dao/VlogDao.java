@@ -16,4 +16,5 @@ public interface VlogDao {
 	Map<String, Object> getVlogRating(int id);
 	User getVlogAuthor(String email);
 	int deleteVlog(int vlogId);
+	int editvlog(int vlogId, String title, String description);
 }
