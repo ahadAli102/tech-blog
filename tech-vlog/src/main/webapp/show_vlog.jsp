@@ -23,7 +23,8 @@
 		Map<String, Object> vlogRating = ServiceProvider.getVlogService().getVlogRating(vlog.getId());
 		User vlogAuthor = ServiceProvider.getVlogService().getVlogAuthor(vlog.getEmail());
 		
-		Map<String, Object> authorRating = new HashMap<String, Object>();
+		Map<String, Object> authorRating = ServiceProvider.getUserService().getAuthorRating(vlogAuthor.getEmail());
+		System.out.println(authorRating);
 
 	%>
 

@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.ahad.entity.Image;
 import com.ahad.entity.User;
@@ -17,6 +19,7 @@ public class UserDaoImpl implements UserDao {
 	private static final String GET_USER_IMAGE = "SELECT * FROM profile_image WHERE profile_image.email=? ORDER BY profile_image.id DESC";
 	private static final String INSERT_IMAGE = "INSERT INTO `profile_image` (`id`, `name`, `type`, `image`,  `email`) VALUES (NULL, ?, ?, ?, ?)";
 	private static final String RATE_AUTHOR = "INSERT INTO `author_rating_table` (`author_email`, `rater_email`, `rating`) VALUES (?, ?, ?)";
+	private static final String RATING_OF_AUTHOR = "SELECT AVG(author_rating_table.rating) AS avg_rating, COUNT(author_rating_table.author_email) AS total_votes FROM author_rating_table WHERE author_rating_table.author_email = ?;";
 			
 			
 
@@ -233,6 +236,51 @@ public class UserDaoImpl implements UserDao {
 		}
 		return response;
 		
+	}
+
+	@Override
+	public Map<String, Object> getUserRating(String email) {
+		Map<String, Object> rating = new HashMap<String, Object>();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		try {
+			conn = DatabaseConnectionProvider.getConnection();
+			stmt = conn.prepareStatement(RATING_OF_AUTHOR);
+			stmt.setString(1, email);
+			System.out.println(stmt);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				rating.put("avg_rating", rs.getObject("avg_rating"));
+				rating.put("total_votes", rs.getInt("total_votes"));
+			}
+		} catch (ClassNotFoundException e) {
+			System.out.println("vlog dao getVlogRating classnotfound");
+			e.printStackTrace();
+		} catch (SQLException e) {
+			System.out.println("vlog dao getVlogRating sql");
+			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("vlog dao getVlogRating exception");
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null) {
+					stmt.close();
+				}
+			} catch (Exception e) {
+				System.out.println("vlog dao getVlogRating stmt close");
+				e.printStackTrace();
+			}
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				System.out.println("user dao getVlogRating conn close");
+				e.printStackTrace();
+			}
+		}
+		return rating;
 	}
 
 }

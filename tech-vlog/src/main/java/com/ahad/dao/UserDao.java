@@ -1,5 +1,7 @@
 package com.ahad.dao;
 
+import java.util.Map;
+
 import com.ahad.entity.Image;
 import com.ahad.entity.User;
 
@@ -9,4 +11,5 @@ public interface UserDao {
 	int insertProfileImage(byte[] image, String fileName, String type,String email);
 	Image getImage(String eamil);
 	int rateAuthor(String authorEmail, String raterEmail, int rating);
+	Map<String, Object> getUserRating(String email);
 }

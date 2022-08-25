@@ -2,6 +2,7 @@ package com.ahad.service;
 
 import java.io.InputStream;
 import java.util.Base64;
+import java.util.Map;
 
 import javax.servlet.http.Part;
 
@@ -100,6 +101,17 @@ public class UserServiceImpl implements UserService {
 		System.out.println("User service : "+authorEmail+" "+raterEmail+" "+rating);
 		if(userDao.rateAuthor(authorEmail, raterEmail, rating) == -1)
 			throw new RuntimeException("You have already ratted this author");
+	}
+
+	@Override
+	public Map<String, Object> getAuthorRating(String email) {
+		if (userDao == null)
+			userDao = ServiceProvider.getUserDao();
+		Map<String,Object> rating = userDao.getUserRating(email);
+		if(rating.get("avg_rating") == null) {
+			rating.put("avg_rating", "Not rated");
+		}
+		return rating;
 	}
 
 }
