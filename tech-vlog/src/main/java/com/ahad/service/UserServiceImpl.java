@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
 				image.setTextImage(textImage);
 				return image;
 			} else {
-				throw new RuntimeException("Image not fownd for the user " + email);
+				return null;
 			}
 		} else {
 			throw new RuntimeException("User email is empty");

@@ -26,12 +26,10 @@ public class VlogServiceImpl implements VlogService {
 	}
 
 	@Override
-	public List<Vlog> getVlogs(String email) {
+	public List<Vlog> getAuthorVlogs(String email) {
 		if (vlogDao == null)
 			vlogDao = ServiceProvider.getVlogDao();
-		List<Vlog> vlogs = vlogDao.getVlogs(email);
-
-		System.out.println(vlogs);
+		List<Vlog> vlogs = vlogDao.getAuthorVlogs(email);
 		return vlogs;
 	}
 
@@ -95,6 +93,22 @@ public class VlogServiceImpl implements VlogService {
 		if(vlogDao.editvlog(vlogId,title,description) ==-1) {
 			throw new RuntimeException("Failed to update vlog");
 		}
+	}
+
+	@Override
+	public List<Vlog> getVlogs() {
+		if (vlogDao == null)
+			vlogDao = ServiceProvider.getVlogDao();
+		List<Vlog> vlogs = vlogDao.getVlogs();
+		return vlogs;
+	}
+
+	@Override
+	public List<Vlog> getVlogs(String query) {
+		if (vlogDao == null)
+			vlogDao = ServiceProvider.getVlogDao();
+		List<Vlog> vlogs = vlogDao.getVlogs(query);
+		return vlogs;
 	}
 
 }
