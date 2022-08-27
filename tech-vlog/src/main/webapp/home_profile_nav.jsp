@@ -1,6 +1,7 @@
 
 <%@page import="com.ahad.entity.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page errorPage="error_page.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 

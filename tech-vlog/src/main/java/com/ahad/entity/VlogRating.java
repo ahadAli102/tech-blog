@@ -1,5 +1,10 @@
 package com.ahad.entity;
 
+/*
+ * Author MD. AHAD ALI
+ * Email: linkonahad10@gmail.com
+ */
+
 public class VlogRating {
 	private int vlogId;
 	private String raterEmail;

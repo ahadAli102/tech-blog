@@ -1,6 +1,7 @@
 
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="home_profile_nav.jsp"%>
+<%@ page errorPage="error_page.jsp"%>
 <html>
 <head>
 <title>Edit vlog</title>

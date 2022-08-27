@@ -9,6 +9,11 @@ import com.ahad.entity.Vlog;
 import com.ahad.entity.VlogRating;
 import com.ahad.util.ServiceProvider;
 
+/*
+ * Author MD. AHAD ALI
+ * Email: linkonahad10@gmail.com
+ */
+
 public class VlogServiceImpl implements VlogService {
 	private VlogDao vlogDao;
 
@@ -61,8 +66,8 @@ public class VlogServiceImpl implements VlogService {
 	public Map<String, Object> getVlogRating(int id) {
 		if (vlogDao == null)
 			vlogDao = ServiceProvider.getVlogDao();
-		Map<String,Object> rating = vlogDao.getVlogRating(id);
-		if(rating.get("avg_rating") == null) {
+		Map<String, Object> rating = vlogDao.getVlogRating(id);
+		if (rating.get("avg_rating") == null) {
 			rating.put("avg_rating", "Not rated");
 		}
 		return rating;
@@ -80,7 +85,7 @@ public class VlogServiceImpl implements VlogService {
 		if (vlogDao == null)
 			vlogDao = ServiceProvider.getVlogDao();
 		if (vlogDao.deleteVlog(vlogId) != -1) {
-			
+
 		} else {
 			throw new RuntimeException("Vlog is not deleted");
 		}
@@ -90,7 +95,7 @@ public class VlogServiceImpl implements VlogService {
 	public void editvlog(int vlogId, String title, String description) {
 		if (vlogDao == null)
 			vlogDao = ServiceProvider.getVlogDao();
-		if(vlogDao.editvlog(vlogId,title,description) ==-1) {
+		if (vlogDao.editvlog(vlogId, title, description) == -1) {
 			throw new RuntimeException("Failed to update vlog");
 		}
 	}

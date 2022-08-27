@@ -7,6 +7,11 @@ import java.util.Map;
 
 import javax.servlet.http.Part;
 
+/*
+ * Author MD. AHAD ALI
+ * Email: linkonahad10@gmail.com
+ */
+
 public interface UserService {
 	int addUser(User user);
 

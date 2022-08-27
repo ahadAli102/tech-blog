@@ -16,9 +16,14 @@ import com.ahad.entity.Vlog;
 import com.ahad.entity.VlogRating;
 import com.ahad.util.DatabaseConnectionProvider;
 
+/*
+ * Author MD. AHAD ALI
+ * Email: linkonahad10@gmail.com
+ */
+
 public class VlogDaoImpl implements VlogDao {
 	private static final String INSERT_SQL = "INSERT INTO `vlog_table` (`title`, `description`, `time`, `email`) VALUES (?, ?, ?, ?);";
-	private static final String GET_AUTHOR_VLOG = "SELECT * from `vlog_table` WHERE vlog_table.email = ? ORDER BY vlog_table.id DESC";
+	private static final String GET_AUTHOR_VLOG = "SELECT * from `vlog_table` WHERE vlog_table.email = ? ORDER BY vlog_table.time DESC";
 	private static final String GET_VLOG_BY_ID = "SELECT * from `vlog_table` WHERE vlog_table.id = ?";
 	private static final String GET_USER_VLOG_RATING = "SELECT COUNT(vlog_rating_table.vlog_id) as user_vote from vlog_rating_table WHERE vlog_rating_table.vlog_id = ? AND vlog_rating_table.email = ?;";
 	private static final String RATE_VLOG = "INSERT INTO `vlog_rating_table`(`vlog_id`, `email`, `rating`) VALUES (?, ?, ?)";
@@ -26,8 +31,8 @@ public class VlogDaoImpl implements VlogDao {
 	private static final String VLOG_AUTHOR = "SELECT * FROM user_table WHERE email=?";
 	private static final String DELETE_VLOG = "DELETE FROM vlog_table WHERE vlog_table.id = ?";
 	private static final String EDIT_VLOG = "UPDATE `vlog_table` SET `title`= ?,`description`= ?,`time`= ? WHERE vlog_table.id = ?";
-	private static final String GET_ALL_VLOG = "SELECT * from `vlog_table` ORDER BY vlog_table.id DESC";
-	private static final String GET_QUERY_VLOG = "SELECT * from `vlog_table` WHERE vlog_table.title LIKE ? OR vlog_table.description LIKE ? ORDER BY vlog_table.id DESC";
+	private static final String GET_ALL_VLOG = "SELECT * from `vlog_table` ORDER BY vlog_table.time DESC";
+	private static final String GET_QUERY_VLOG = "SELECT * from `vlog_table` WHERE vlog_table.title LIKE ? OR vlog_table.description LIKE ? ORDER BY vlog_table.time DESC";
 
 	@Override
 	public int addVlog(Vlog vlog) {

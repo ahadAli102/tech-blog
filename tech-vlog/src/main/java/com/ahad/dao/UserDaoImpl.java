@@ -13,6 +13,11 @@ import com.ahad.entity.Image;
 import com.ahad.entity.User;
 import com.ahad.util.DatabaseConnectionProvider;
 
+/*
+ * Author MD. AHAD ALI
+ * Email: linkonahad10@gmail.com
+ */
+
 public class UserDaoImpl implements UserDao {
 	private static final String INSERT_SQL = "INSERT INTO `user_table` (`name`, `email`, `password`, `condition`) VALUES (?, ?, ?, ?)";
 	private static final String GET_USER = "SELECT * FROM user_table WHERE email=? AND password=? ";
@@ -20,8 +25,6 @@ public class UserDaoImpl implements UserDao {
 	private static final String INSERT_IMAGE = "INSERT INTO `profile_image` (`id`, `name`, `type`, `image`,  `email`) VALUES (NULL, ?, ?, ?, ?)";
 	private static final String RATE_AUTHOR = "INSERT INTO `author_rating_table` (`author_email`, `rater_email`, `rating`) VALUES (?, ?, ?)";
 	private static final String RATING_OF_AUTHOR = "SELECT AVG(author_rating_table.rating) AS avg_rating, COUNT(author_rating_table.author_email) AS total_votes FROM author_rating_table WHERE author_rating_table.author_email = ?;";
-			
-			
 
 	@Override
 	public int addUser(User user) {
@@ -167,7 +170,7 @@ public class UserDaoImpl implements UserDao {
 			System.out.println(stmt);
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
-				image = new Image(rs.getInt("id"),rs.getString("name"),rs.getString("type"));
+				image = new Image(rs.getInt("id"), rs.getString("name"), rs.getString("type"));
 				image.setByteImage(rs.getBytes("image"));
 			}
 		} catch (ClassNotFoundException e) {
@@ -200,7 +203,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public int rateAuthor(String authorEmail, String raterEmail, int rating) {
-		System.out.println("User dao : "+authorEmail+" "+raterEmail+" "+rating);
+		System.out.println("User dao : " + authorEmail + " " + raterEmail + " " + rating);
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		int response = -1;
@@ -235,7 +238,7 @@ public class UserDaoImpl implements UserDao {
 			}
 		}
 		return response;
-		
+
 	}
 
 	@Override

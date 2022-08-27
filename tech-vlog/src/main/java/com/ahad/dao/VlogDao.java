@@ -7,6 +7,11 @@ import com.ahad.entity.User;
 import com.ahad.entity.Vlog;
 import com.ahad.entity.VlogRating;
 
+/*
+ * Author MD. AHAD ALI
+ * Email: linkonahad10@gmail.com
+ */
+
 public interface VlogDao {
 	int addVlog(Vlog vlog);
 
@@ -27,6 +32,6 @@ public interface VlogDao {
 	int editvlog(int vlogId, String title, String description);
 
 	List<Vlog> getVlogs();
-	
+
 	List<Vlog> getVlogs(String query);
 }

@@ -3,6 +3,7 @@
 <%@page import="java.util.Calendar"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ page errorPage="error_page.jsp"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page isELIgnored="false"%>
@@ -11,7 +12,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Register</title>
 <link rel="stylesheet" href="css/bootstrap.css">
 <link rel="stylesheet" href="css/myStyle.css">
 <style>
@@ -77,10 +78,10 @@
 												agree all statements in <a href="#!">Terms of service</a>
 											</label>
 										</div>
-										
+
 										<c:set var="message" value='${requestScope["status"]}' />
 										<c:if test="${not empty message}">
-										    <label class="form-label">${message}</label>
+											<label class="form-label">${message}</label>
 										</c:if>
 
 

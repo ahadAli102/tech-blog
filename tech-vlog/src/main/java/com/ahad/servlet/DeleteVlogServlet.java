@@ -10,11 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ahad.util.ServiceProvider;
 
+/*
+ * Author MD. AHAD ALI
+ * Email: linkonahad10@gmail.com
+ */
+
 @WebServlet("/deletevlog")
 public class DeleteVlogServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
@@ -25,7 +30,7 @@ public class DeleteVlogServlet extends HttpServlet {
 		} catch (Exception e) {
 			request.getSession().setAttribute("delete_vlog_status", e.getMessage());
 			System.out.println("Error occured: " + e.getMessage());
-		}finally {
+		} finally {
 			response.sendRedirect("home_profile.jsp");
 		}
 	}

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ page errorPage="error_page.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,19 +25,8 @@
 					<li class="nav-item"><a class="nav-link active"
 						aria-current="page"
 						href="http://localhost:8080/tech-vlog/home_feed.jsp">Home</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-						role="button" data-bs-toggle='dropdown' aria-expanded="false">
-							Explore </a>
-						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li><a class="dropdown-item" href="#">Java</a></li>
-							<li><a class="dropdown-item" href="#">Kotlin</a></li>
-							<li><hr class="dropdown-divider"></li>
-							<li><a class="dropdown-item" href="#">MySql</a></li>
-						</ul></li>
-					<li class="nav-item"><a class="nav-link disabled" href="#"
-						tabindex="-1" aria-disabled="true">More...</a></li>
+					<li class="nav-item"><a class="nav-link" href="https://github.com/ahadAli102">Contact</a></li>
+					
 				</ul>
 				<form class="d-flex">
 					<input class="form-control me-2" type="search" placeholder="Search"

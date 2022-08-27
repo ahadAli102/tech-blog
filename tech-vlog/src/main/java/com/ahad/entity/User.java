@@ -1,5 +1,10 @@
 package com.ahad.entity;
 
+/*
+ * Author MD. AHAD ALI
+ * Email: linkonahad10@gmail.com
+ */
+
 public class User {
 	private String name;
 	private String email;
@@ -15,7 +20,7 @@ public class User {
 		this.rePassword = rePassword;
 		this.condition = condition;
 	}
-	
+
 	public User(String name, String email, String password, String condition) {
 		super();
 		this.name = name;
@@ -23,7 +28,6 @@ public class User {
 		this.password = password;
 		this.condition = condition;
 	}
-	
 
 	public User() {
 		super();

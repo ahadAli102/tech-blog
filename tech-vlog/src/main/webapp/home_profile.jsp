@@ -6,6 +6,7 @@
 <%@ page import="java.sql.*"%>
 <%@page import="com.ahad.entity.User"%>
 <%@ page import="java.io.*"%>
+<%@ page errorPage="error_page.jsp"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@include file="home_profile_nav.jsp"%>
@@ -181,7 +182,6 @@
 		%>
 
 		<div class="row row-cols-1 row-cols-md-3 g-4">
-
 			<%
 				for (int i = 0; i < vlogs.size(); i++) {
 			%>
@@ -190,9 +190,6 @@
 					<div class="card-body">
 						<h5 class="card-title"><%=vlogs.get(i).getTitle()%></h5>
 						<p class="card-text"><%=vlogs.get(i).getDescription()%></p>
-						<p class="card-text">
-							<small class="text-muted"><%=vlogs.get(i).getLastUpdate()%></small>
-						</p>
 						<div class="card-text text-muted d-flex">
 							<a
 								href="http://localhost:8080/tech-vlog/showvlog?vlogId=<%=vlogs.get(i).getId()%>"
@@ -201,13 +198,12 @@
 								class="ms-2 me-2 link-secondary"> EDIT </a>
 						</div>
 					</div>
+					<div class="card-footer">
+						<small class="text-muted"><%=vlogs.get(i).getLastUpdate()%></small>
+					</div>
 				</div>
 			</div>
-			<%
-				}
-			%>
-
-
+			<%} %>
 		</div>
 
 		<!-- 

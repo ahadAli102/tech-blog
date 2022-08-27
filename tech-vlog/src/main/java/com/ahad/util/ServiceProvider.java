@@ -9,6 +9,11 @@ import com.ahad.service.UserServiceImpl;
 import com.ahad.service.VlogService;
 import com.ahad.service.VlogServiceImpl;
 
+/*
+ * Author MD. AHAD ALI
+ * Email: linkonahad10@gmail.com
+ */
+
 public class ServiceProvider {
 	private static UserDao userDao;
 	private static UserService userService;

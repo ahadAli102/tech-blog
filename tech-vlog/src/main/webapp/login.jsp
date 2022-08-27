@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Login</title>
 <link rel="stylesheet" href="css/bootstrap.css">
 <link rel="stylesheet" href="css/myStyle.css">
 <style>
@@ -101,7 +101,7 @@
 		<div
 			class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
 			<!-- Copyright -->
-			<div class="text-white mb-3 mb-md-0">Copyright © 2020. All
+			<div class="text-white mb-3 mb-md-0">Copyright © 2022. All
 				rights reserved.</div>
 			<!-- Copyright -->
 

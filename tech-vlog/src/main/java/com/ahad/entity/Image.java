@@ -2,6 +2,11 @@ package com.ahad.entity;
 
 import java.util.Arrays;
 
+/*
+ * Author MD. AHAD ALI
+ * Email: linkonahad10@gmail.com
+ */
+
 public class Image {
 	private int id;
 	private String name;

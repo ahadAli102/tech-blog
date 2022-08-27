@@ -4,6 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@include file="home_nav.jsp"%>
+<%@ page errorPage="error_page.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +15,7 @@
 </head>
 <body>
 	<%
-	try {
+		try {
 		User user = (User) session.getAttribute("user");
 		if (user == null) {
 			System.out.println("home feed user is null");
@@ -31,35 +32,34 @@
 
 		<%
 			List<Vlog> vlogs;
-			if(request.getParameter("query") != null){
-				vlogs = ServiceProvider.getVlogService().getVlogs((request.getParameter("query").trim()));
-			}else{
-				vlogs = ServiceProvider.getVlogService().getVlogs();
-			}
-			
-			for (int i = 0; i < vlogs.size(); i++) {
+		if (request.getParameter("query") != null) {
+			vlogs = ServiceProvider.getVlogService().getVlogs((request.getParameter("query").trim()));
+		} else {
+			vlogs = ServiceProvider.getVlogService().getVlogs();
+		}
+
+		for (int i = 0; i < vlogs.size(); i++) {
 		%>
+
 		<div class="col">
 			<div class="card h-100">
 				<div class="card-body">
 					<h5 class="card-title"><%=vlogs.get(i).getTitle()%></h5>
 					<p class="card-text"><%=vlogs.get(i).getDescription()%></p>
-					<p class="card-text">
-						<small class="text-muted"><%=vlogs.get(i).getLastUpdate()%></small>
-					</p>
 					<div class="card-text text-muted d-flex">
 						<a
 							href="http://localhost:8080/tech-vlog/showvlog?vlogId=<%=vlogs.get(i).getId()%>"
 							class="ms-2 me-2 link-primary"> SHOW </a>
 					</div>
 				</div>
+				<div class="card-footer">
+					<small class="text-muted"><%=vlogs.get(i).getLastUpdate()%></small>
+				</div>
 			</div>
 		</div>
 		<%
 			}
 		%>
-
-
 	</div>
 	<script src="js/jquery.js"></script>
 	<script src="js/bootstrap.js"></script>

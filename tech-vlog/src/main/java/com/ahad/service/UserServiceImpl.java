@@ -11,6 +11,11 @@ import com.ahad.entity.Image;
 import com.ahad.entity.User;
 import com.ahad.util.ServiceProvider;
 
+/*
+ * Author MD. AHAD ALI
+ * Email: linkonahad10@gmail.com
+ */
+
 public class UserServiceImpl implements UserService {
 	private UserDao userDao;
 
@@ -98,8 +103,8 @@ public class UserServiceImpl implements UserService {
 	public void rateAuthor(String authorEmail, String raterEmail, int rating) {
 		if (userDao == null)
 			userDao = ServiceProvider.getUserDao();
-		System.out.println("User service : "+authorEmail+" "+raterEmail+" "+rating);
-		if(userDao.rateAuthor(authorEmail, raterEmail, rating) == -1)
+		System.out.println("User service : " + authorEmail + " " + raterEmail + " " + rating);
+		if (userDao.rateAuthor(authorEmail, raterEmail, rating) == -1)
 			throw new RuntimeException("You have already ratted this author");
 	}
 
@@ -107,8 +112,8 @@ public class UserServiceImpl implements UserService {
 	public Map<String, Object> getAuthorRating(String email) {
 		if (userDao == null)
 			userDao = ServiceProvider.getUserDao();
-		Map<String,Object> rating = userDao.getUserRating(email);
-		if(rating.get("avg_rating") == null) {
+		Map<String, Object> rating = userDao.getUserRating(email);
+		if (rating.get("avg_rating") == null) {
 			rating.put("avg_rating", "Not rated");
 		}
 		return rating;

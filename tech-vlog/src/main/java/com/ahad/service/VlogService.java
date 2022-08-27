@@ -6,6 +6,11 @@ import java.util.Map;
 import com.ahad.entity.User;
 import com.ahad.entity.Vlog;
 
+/*
+ * Author MD. AHAD ALI
+ * Email: linkonahad10@gmail.com
+ */
+
 public interface VlogService {
 	int addVlog(String title, String description, String email);
 
