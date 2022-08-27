@@ -54,9 +54,9 @@
 						href="http://localhost:8080/tech-vlog/home_article.jsp">Article</a></li>
 
 				</ul>
-				<form class="d-flex">
+				<form class="d-flex" action="home_feed.jsp">
 					<input class="form-control me-2" type="search" placeholder="Search"
-						aria-label="Search">
+						aria-label="Search" name="query">
 					<button class="btn btn-outline-success me-2" type="submit">Search</button>
 				</form>
 				<form class="ml-2" method="get" action="logout">

@@ -30,7 +30,13 @@
 	<div class="row row-cols-1 row-cols-md-3 g-4 p-2">
 
 		<%
-			List<Vlog> vlogs = ServiceProvider.getVlogService().getVlogs();
+			List<Vlog> vlogs;
+			if(request.getParameter("query") != null){
+				vlogs = ServiceProvider.getVlogService().getVlogs((request.getParameter("query").trim()));
+			}else{
+				vlogs = ServiceProvider.getVlogService().getVlogs();
+			}
+			
 			for (int i = 0; i < vlogs.size(); i++) {
 		%>
 		<div class="col">
