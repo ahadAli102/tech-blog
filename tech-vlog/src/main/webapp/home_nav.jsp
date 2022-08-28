@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Tech Vlog</title>
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/myStyle.css">
 </head>
@@ -22,10 +22,10 @@
 			response.sendRedirect("login.jsp");
 			return;
 		}
-		System.out.println("home nav "+user);
+		System.out.println("home nav " + user);
 
 	} catch (Exception e) {
-		System.out.println("home nav "+e.getMessage());
+		System.out.println("home nav " + e.getMessage());
 		response.sendRedirect("login.jsp");
 	}
 	%>
@@ -48,11 +48,6 @@
 					<li class="nav-item"><a class="nav-link active"
 						aria-current="page"
 						href="http://localhost:8080/tech-vlog/home_profile.jsp">Profile</a></li>
-
-
-					<li class="nav-item"><a class="nav-link active"
-						aria-current="page"
-						href="http://localhost:8080/tech-vlog/home_article.jsp">Article</a></li>
 
 				</ul>
 				<form class="d-flex" action="home_feed.jsp">

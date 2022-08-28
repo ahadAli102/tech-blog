@@ -50,11 +50,6 @@
 						aria-current="page"
 						href="http://localhost:8080/tech-vlog/home_profile.jsp">Profile</a></li>
 
-
-					<li class="nav-item"><a class="nav-link active"
-						aria-current="page"
-						href="http://localhost:8080/tech-vlog/home_article.jsp">Article</a></li>
-
 				</ul>
 				<form class="ml-2" method="get" action="logout">
 					<button class="btn btn-outline-success" type="submit">Log

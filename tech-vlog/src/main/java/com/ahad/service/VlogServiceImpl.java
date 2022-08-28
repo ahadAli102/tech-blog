@@ -1,5 +1,6 @@
 package com.ahad.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +36,8 @@ public class VlogServiceImpl implements VlogService {
 		if (vlogDao == null)
 			vlogDao = ServiceProvider.getVlogDao();
 		List<Vlog> vlogs = vlogDao.getAuthorVlogs(email);
+		if(vlogs == null)
+			vlogs = new ArrayList<Vlog>();
 		return vlogs;
 	}
 

@@ -1,5 +1,6 @@
 <%@page import="com.ahad.entity.Vlog"%>
 <%@page import="java.util.List"%>
+<%@page import="java.util.Map"%>
 <%@page import="com.ahad.util.ServiceProvider"%>
 <%@page import="com.ahad.entity.Image"%>
 <%@page import="java.util.Base64"%>
@@ -23,6 +24,7 @@
 <body>
 	<%
 		User user = null;
+	Map<String, Object> rating = null;
 	String myImage = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwsPDw4NEBANDQ0NDgoNDw0NCg8NDg0OFREWFhURFRMYHSggGBoxGxUTITEhJSkrLi4uFx8zODM2NyguLjcBCgoKDQ0NDg0ODisZFRkrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrK//AABEIAOEA4QMBIgACEQEDEQH/xAAaAAEBAQEBAQEAAAAAAAAAAAAAAQUEAwIH/8QALxABAAEDAgMHAgYDAAAAAAAAAAECAxEEITFBURIiMmFxkbEF0UJygYKhwVJi8f/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A/VEFVEFAQUBBQEFAQUBBQEFAQUBBQEFAQUBBQEFARQBFRQAAAAAAAAAAAAAAAAAAAAAAAAAAAARUUAAAAAAAAAAAAAAAAAAAAAAAAAAAAEVFAAAAAAAAAB43NRRTtM79I3kHsk1RHSPWcM69q654d2PLi559/UGxFdPWPeH0xMPSm7XHCqfcGuM2jWVxx70ebts36a+HHpzB6gAAAAAAAAAAAiooAAAAAAAOXX3cRFMfi+Aeeq1X4aZ9avs4wUAAAAFpmYnMbT1QBqaa924844x/b2ZWmudmqJ5TtPo1UAAAAAAAAAAEVFAAAAAAAZerr7Vc9I7rTmcRnpuxgAFAAAAAABraerNFM/6x9mS1NL4KfT+0HsAAAAAAAAACKigAAAAAA87/AIavy1fDJa1/wVflq+GSAAoAAAAAANPReCn93yzGlovBT+75QdAAAAAAAAAAIqKAAAAAADj192qMUxtExOXC7PqMb0z6uMABQAAAAAAdehu1Z7HLE7dHI6NBHf8ASJQaQAAAAAAAAAIqKAAAAAADm19Oac9JhnNiumJiYnhMYlm6mx2Mb5ic8geICgAAAAAA7fp1Piq9Ic1i125xnG2c4adq3FMRTHL+UH2AAAAAAAAACKigAAAAAAPDV2+1TPWN4e4DFHvq7PZnMeGrePKejwUAAAAAeli1Nc45c58gdegt4p7X+Xw60iIjaOEbKgAAAAAAAAAAiooAAAAAAAIDx1sdyfLEsxpa6qIomOc4ZoACgAA7/p8d2Z6y4Hd9OqjExzyg7BFAAAAAAAAAABFRQAAAABHnc1FFPGd+kbyD0cus1FVMxTG2Yznm87uumfDGPOd5ctVUzOZnM+YJMzO87z5gKAAAABAA7NJqK5mKZ34784dzFiZjeNpdNrW1Rx70e0oNEeFvVW6ueJ6Ts9gUAAAAAAAEVFAHzXXFMZnaIZ1/VVVcO7T0B3XL9FPGd+kby5rmu/xj9Z+zjAeld+urjM+kbQ8wUAAAAAAAAAAAAH3Rdrp4TMeXJ8AOu3rp/FET6TifZ029Tbq54npOzLEGyrKs366eG8dJaNq5FUZj/k9AegAAAIqAOH6hc3ijlG8uR6amc11T549tnmoAAAAAAAAAAAAAAAAAAAAPfRXMVY5VbfryeC0ziYnpMT/INkRUAAEFAZF/xVfmq+XwCgAAAAAAAAAAAAAAAAAAAAADZUEAAH//2Q==";
 	try {
 		user = (User) session.getAttribute("user");
@@ -33,6 +35,7 @@
 		Image image = ServiceProvider.getUserService().getProfileImage(user.getEmail());
 		if(image!=null)
 			myImage = "data:" + image.getType() + ";base64," + image.getTextImage();
+		rating = ServiceProvider.getUserService().getAuthorRating(user.getEmail());
 
 	} catch (Exception e) {
 		e.printStackTrace();
@@ -55,29 +58,24 @@
 								class="img-fluid" style="width: 180px; border-radius: 10px;">
 						</div>
 						<div class="flex-grow-1 ms-3">
-							<h5 class="mb-1">Danny McLoan</h5>
-							<p class="mb-2 pb-1" style="color: #2b2a2a;">Senior
-								Journalist</p>
+							<h5 class="mb-1"><%=user.getName() %></h5>
+							<p class="mb-2 pb-1" style="color: #2b2a2a;"><%=user.getEmail() %></p>
 							<div class="d-flex justify-content-start rounded-3 p-2 mb-2"
 								style="background-color: #efefef;">
 								<div>
 									<p class="small text-muted mb-1">Articles</p>
-									<p class="mb-0">41</p>
+									<p class="mb-0"><%= vlogs.size()%></p>
 								</div>
 								<div class="px-3">
-									<p class="small text-muted mb-1">Followers</p>
-									<p class="mb-0">976</p>
+									<p class="small text-muted mb-1">Votes</p>
+									<p class="mb-0"><%= rating.get("total_votes")%></p>
 								</div>
 								<div>
 									<p class="small text-muted mb-1">Rating</p>
-									<p class="mb-0">8.5</p>
+									<p class="mb-0"><%= rating.get("avg_rating")%></p>
 								</div>
 							</div>
-							<div class="d-flex pt-1">
-								<button type="button"
-									class="btn btn-outline-primary me-1 flex-grow-1">Chat</button>
-								<button type="button" class="btn btn-primary flex-grow-1">Follow</button>
-							</div>
+							
 						</div>
 					</div>
 				</div>
@@ -169,17 +167,10 @@
 				</form>
 			</div>
 		</div>
-		<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Articles</p>
-
-		<%
-			String vlogEditMessage = (String) session.getAttribute("edit_vlog_status");
-		if (vlogMessage != null) {
-		%>
-		<label class="form-label"><%=vlogEditMessage%></label>
-		<%
-			session.removeAttribute("edit_vlog_status");
-		}
-		%>
+		<%if(vlogs.size() > 0){ %>
+			<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Articles</p>
+		<%}%>
+		
 
 		<div class="row row-cols-1 row-cols-md-3 g-4">
 			<%

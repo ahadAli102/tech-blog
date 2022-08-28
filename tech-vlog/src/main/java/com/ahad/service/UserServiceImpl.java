@@ -116,6 +116,7 @@ public class UserServiceImpl implements UserService {
 		if (rating.get("avg_rating") == null) {
 			rating.put("avg_rating", "Not rated");
 		}
+		System.out.println("Rating "+rating);
 		return rating;
 	}
 

@@ -1,4 +1,6 @@
 
+<%@page import="com.ahad.util.ServiceProvider"%>
+<%@page import="com.ahad.entity.Vlog"%>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="home_profile_nav.jsp"%>
 <%@ page errorPage="error_page.jsp"%>
@@ -12,6 +14,9 @@
 </head>
 <body>
 <body>
+	<%
+		Vlog vlog = ServiceProvider.getVlogService().getVlog(Integer.parseInt(request.getParameter("vlogId")));
+	%>
 	<div class="row">
 		<div class="col">
 			<p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Add Vlog</p>
@@ -19,8 +24,9 @@
 				<div class="d-flex flex-row align-items-center mb-4">
 					<i class="fas fa-user fa-lg me-3 fa-fw"></i>
 					<div class="form-outline flex-fill mb-0">
-						<input type="text" name="title" id="form3Example1c"
-							class="form-control" /> <label class="form-label"
+						<input type="text" value="<%=vlog.getTitle()%>" name="title" id="form3Example1c"
+							class="form-control">
+						</input> <label class="form-label"
 							for="form3Example1c">Title</label>
 					</div>
 				</div>
@@ -29,12 +35,11 @@
 					<i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
 					<div class="form-outline flex-fill mb-0 rows=3">
 						<textarea class="form-control" id="form3Example3c" rows="5"
-							name="description"></textarea>
+							name="description"><%=vlog.getDescription()%></textarea>
 						<label class="form-label" for="form3Example3c">Description</label>
 					</div>
 				</div>
-				<input type="hidden" name="vlogId"
-					value="<%=request.getParameter("vlogId")%>" />
+				<input type="hidden" name="vlogId" value="<%=vlog.getId()%>" />
 
 				<div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
 					<input type="submit" value="ADD"
